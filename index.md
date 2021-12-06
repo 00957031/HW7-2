@@ -1,37 +1,104 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html>
 
-You can use the [editor on GitHub](https://github.com/00957031/HW7-2/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+<head>
+    <meta charset="utf-8">
+    <title>Local Storage</title>
+    <style type="text/CSS">
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background-color: lightblue;
+            font-family: Perpetua;
+        }
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+        table, td, th {
+            border: 1px solid black;
+            padding: 4px;
+        }
 
-### Markdown
+        th {
+            text-align: center;
+            color: white;
+            background-color: darkblue;
+        }
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+        tr.oddrow {
+            background-color: white;
+        }
 
-```markdown
-Syntax highlighted code block
+        td {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        var table="<table><tr><th>Title</th><th>Author</th><th>Year</th><th>URL</th></tr>";
+        var op="";
+        function start()
+        {
+            var add=document.getElementById("addButton");
+            add.addEventListener("click",add1,"false");
+            var remove=document.getElementById("removeAllButton");
+            remove.addEventListener("click",remove1,"false");
+            settable();
+        }
+        function settable()
+        {
+            op=table;
+            for(let i=0;i<localStorage.length; i++)
+            {
+                let temp = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                op += "<tr><td>" + temp.title + "</td><td>" + temp.author + "</td><td>" + temp.year + "</td><td><a href = '" + temp.url + "'' target = '_blank'>" + temp.url + "</a></td></tr>";
+            }
+            op += "</table>";
+            var display = document.getElementById("display");
+            display.innerHTML = op;
+        }
+        function add1()
+        {
+            var obj={"title":document.getElementById("book").value,"author":document.getElementById("author").value,"year":document.getElementById("year").value,"url":document.getElementById("url").value};
+            var JSONA=JSON.stringify(obj);
+            var Key="ntou-"+new Date().getTime();
+            localStorage.setItem(Key,JSONA);
+            settable();
+        }
+        function remove1()
+        {
+            localStorage.clear();
+            op=table;
+            document.getElementById("display").innerHTML=op;
+            alert("All items were removed!");
+        }
+        window.addEventListener("load",start,false);
+    </script>
+</head>
 
-# Header 1
-## Header 2
-### Header 3
+<body>
+    <form action="#">
+        <p>
+            <label>Book Title:</label>
+            <input type="text" id="book">
+            <label>Author(s):</label>
+            <input type="text" id="author">
+            <label>Year:</label>
+            <input type="text" id="year">
+            <label>Book URL:</label>
+            <input type="text" id="url">
+        </p>
+        <p>
+            <input type="button" value="Add New Item" id="addButton">
+            <input type="button" value="Remove All Items" id="removeAllButton">
+        </p>
+    </form>
+    <hr>
+    <div id="display">
+        <table>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>URL</th>
+        </table>
+    </div>
+</body>
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/00957031/HW7-2/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+</html>
